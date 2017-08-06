@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.shubham.acceleration_sg.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="11dp"
+            android:text="Accelerometer" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="x_accel"
+            android:layout_below="@+id/textView5"
+            android:layout_toStartOf="@+id/textView5" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView10"
+            android:layout_below="@+id/textView10"
+            android:layout_marginTop="38dp"
+            android:text="y_accel" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/textView10"
+            android:layout_below="@+id/textView11"
+            android:layout_marginTop="37dp"
+            android:text="z_accel" />
+
+        <TextView
+            android:id="@+id/x_vl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="xvl"
+            android:layout_alignBaseline="@+id/textView10"
+            android:layout_alignBottom="@+id/textView10"
+            android:layout_toEndOf="@+id/textView5" />
+
+        <TextView
+            android:id="@+id/y_vl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="yvl"
+            android:layout_above="@+id/textView12"
+            android:layout_alignStart="@+id/x_vl" />
+
+        <TextView
+            android:id="@+id/z_vl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView12"
+            android:layout_alignStart="@+id/y_vl"
+            android:text="zvl" />
+
+        <TextView
+            android:id="@+id/NT_SV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Saving disabled"
+            android:layout_below="@+id/textView12"
+            android:layout_toStartOf="@+id/z_vl" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            android:layout_below="@+id/NT_SV"
+            android:layout_alignEnd="@+id/NT_SV" />
+
+        <com.jjoe64.graphview.GraphView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/graph"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/button" />
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
