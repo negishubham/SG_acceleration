@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         series1.appendData(new DataPoint(0,0), true, 50);
 
         graph.addSeries(series);
+
         graph.addSeries(series1);
         sgFilter = new SGFilter(5, 5);
 
@@ -60,7 +61,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         float x = sensorEvent.values[0];
         float y = sensorEvent.values[1];
         float z= sensorEvent.values[2];
-        double w= Math.sqrt(x*x+y*y+z*z);
+        count++;
+        //double [] w[count]= Math.sqrt(x*x+y*y+z*z);
+        double [] w;
+        w[count]= Math.sqrt(x*x+y*y+z*z);
 
         TextView a = (TextView) findViewById(R.id.x_vl);
         TextView b = (TextView) findViewById(R.id.y_vl);
@@ -70,11 +74,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         a.setText(String.format(Locale.getDefault(), "%.9f", x));
         b.setText(String.format(Locale.getDefault(), "%.9f", y));
         c.setText(String.format(Locale.getDefault(), "%.9f", z));
-        d.setText(String.format(Locale.getDefault(), "%.9f", w));
+        d.setText(String.format(Locale.getDefault(), "%.9f", w[count]));
 
-        count++;
+
         GraphView graph = (GraphView) findViewById(R.id.graph);
-        series.appendData(new DataPoint(count,w), true, 50);
+        series.appendData(new DataPoint(count,w[count]), true, 50);
         graph.addSeries(series);
 
         if (count%49==0)
@@ -86,8 +90,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 count1[i]=i+offset;
             }
             double[] smooth = sgFilter.smooth(w, SGFilter.computeSGCoefficients(5, 5, 3));
-           // GraphView graph = (GraphView) findViewById(R.id.graph);
-            series1.appendData(new DataPoint(count1, smooth), true, 50);
+            //GraphView graph = (GraphView) findViewById(R.id.graph);
+            series1.appendData(new DataPoint(count1,smooth), true, 50);
             graph.addSeries(series1);
             offset=offset+50;
         }

@@ -95,7 +95,7 @@
             android:layout_alignStart="@+id/textView12"
             android:layout_below="@+id/NT_SV"
             android:layout_marginTop="18dp"
-            android:text="w" />
+            android:text="Net_accel" />
 
         <TextView
             android:id="@+id/w_vl"
