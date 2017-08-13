@@ -8,10 +8,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.graphics.Color;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.PointsGraphSeries;
 import mr.go.sgfilter.SGFilter;
 import java.util.Locale;
 
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SGFilter sgFilter;
 
     LineGraphSeries<DataPoint> series;
-    LineGraphSeries<DataPoint> series1;
+    PointsGraphSeries<DataPoint> series1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         series = new LineGraphSeries<>();
         series.appendData(new DataPoint(0,0), true, 50);
 
-        series1 = new LineGraphSeries<>();
+        series1 = new PointsGraphSeries<>();
         series1.appendData(new DataPoint(0,0), true, 50);
 
         graph.addSeries(series);
@@ -90,9 +91,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 count1[i]=i+offset;
             }
             double[] smooth = sgFilter.smooth(w, SGFilter.computeSGCoefficients(5, 5, 3));
-            //GraphView graph = (GraphView) findViewById(R.id.graph);
             series1.appendData(new DataPoint(count1,smooth), true, 50);
             graph.addSeries(series1);
+            series1.setShape(PointsGraphSeries.Shape.POINT);
+            series1.setColor(Color.RED);
             offset=offset+50;
         }
     }
