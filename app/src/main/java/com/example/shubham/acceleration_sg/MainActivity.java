@@ -1,5 +1,6 @@
 package com.example.shubham.acceleration_sg;
 
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -8,13 +9,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.graphics.Color;
+
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
-import mr.go.sgfilter.SGFilter;
+
 import java.util.Locale;
+
+import mr.go.sgfilter.SGFilter;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -42,12 +45,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         GraphView graph = (GraphView) findViewById(R.id.graph);
         series = new LineGraphSeries<>();
         series.appendData(new DataPoint(0,0), true, 50);
+        graph.addSeries(series);
 
         series1 = new PointsGraphSeries<>();
         series1.appendData(new DataPoint(0,0), true, 50);
-
-        graph.addSeries(series);
-
+        series1.setShape(PointsGraphSeries.Shape.POINT);
+        series1.setColor(Color.RED);
         graph.addSeries(series1);
         sgFilter = new SGFilter(5, 5);
 
@@ -63,8 +66,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         float y = sensorEvent.values[1];
         float z= sensorEvent.values[2];
         count++;
-        //double [] w[count]= Math.sqrt(x*x+y*y+z*z);
-        double [] w;
+        double  [] w= new double[10000];
         w[count]= Math.sqrt(x*x+y*y+z*z);
 
         TextView a = (TextView) findViewById(R.id.x_vl);
@@ -79,29 +81,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
-        series.appendData(new DataPoint(count,w[count]), true, 50);
-        graph.addSeries(series);
 
-        if (count%49==0)
+        if ((count%9)==0)
         {
-            int [] count1=new int[50];
-
-            for (int i=0;i <50;++i)
-            {
-                count1[i]=i+offset;
-            }
+            int count1=0;
             double[] smooth = sgFilter.smooth(w, SGFilter.computeSGCoefficients(5, 5, 3));
-            series1.appendData(new DataPoint(count1,smooth), true, 50);
-            graph.addSeries(series1);
-            series1.setShape(PointsGraphSeries.Shape.POINT);
-            series1.setColor(Color.RED);
+
+            for (int i=0;i<50;++i)
+            {
+                count1=i+offset;
+                series.appendData(new DataPoint(count,w[i]), true, 50);
+                graph.addSeries(series);
+                series1.appendData(new DataPoint(count1,smooth[i]), true, 50);
+                graph.addSeries(series1);
+                series1.setShape(PointsGraphSeries.Shape.POINT);
+                series1.setColor(Color.RED);
+            }
             offset=offset+50;
         }
     }
-
-
-
-
 
 
 
