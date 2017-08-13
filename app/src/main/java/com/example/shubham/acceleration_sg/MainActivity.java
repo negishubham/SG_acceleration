@@ -1,30 +1,29 @@
 package com.example.shubham.acceleration_sg;
 
-        import android.hardware.Sensor;
+import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import mr.go.sgfilter.SGFilter;
 import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     private int on = 0;
-    String data = "";
     int count = 0;
+    int offset=0;
+    private SGFilter sgFilter;
 
     LineGraphSeries<DataPoint> series;
+    LineGraphSeries<DataPoint> series1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +38,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             Toast.makeText(getApplicationContext(),"Accelerometer", Toast.LENGTH_LONG).show();
             System.exit(1);
         }
+        GraphView graph = (GraphView) findViewById(R.id.graph);
+        series = new LineGraphSeries<>();
+        series.appendData(new DataPoint(0,0), true, 50);
 
+        series1 = new LineGraphSeries<>();
+        series1.appendData(new DataPoint(0,0), true, 50);
 
+        graph.addSeries(series);
+        graph.addSeries(series1);
+        sgFilter = new SGFilter(5, 5);
 
     }
 
@@ -55,58 +62,38 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         float z= sensorEvent.values[2];
         double w= Math.sqrt(x*x+y*y+z*z);
 
-        TextView xtv = (TextView) findViewById(R.id.x_vl);
-        TextView ytv = (TextView) findViewById(R.id.y_vl);
-        TextView ztv = (TextView) findViewById(R.id.z_vl);
+        TextView a = (TextView) findViewById(R.id.x_vl);
+        TextView b = (TextView) findViewById(R.id.y_vl);
+        TextView c = (TextView) findViewById(R.id.z_vl);
+        TextView d = (TextView) findViewById(R.id.w_vl);
 
-        xtv.setText(String.format(Locale.getDefault(), "%.9f", x));
-        ytv.setText(String.format(Locale.getDefault(), "%.9f", y));
-        ztv.setText(String.format(Locale.getDefault(), "%.9f", z));
-        if (on==1) {
-            data+=(String.format(Locale.getDefault(), "%.9f", x)+" "+String.format(Locale.getDefault(), "%.9f", y)+" "+String.format(Locale.getDefault(), "%.9f", z)+" "+System.currentTimeMillis()+"\n");
-            count++;
-            TextView saveM = (TextView) findViewById(R.id.NT_SV);
-            saveM.setText(String.format(Locale.getDefault(), "No. of data points=%d",count));
-            if (count>=100000) start_stop(findViewById(R.id.button));
-        }
+        a.setText(String.format(Locale.getDefault(), "%.9f", x));
+        b.setText(String.format(Locale.getDefault(), "%.9f", y));
+        c.setText(String.format(Locale.getDefault(), "%.9f", z));
+        d.setText(String.format(Locale.getDefault(), "%.9f", w));
 
-        GraphView graph= (GraphView) findViewById(R.id.graph);
-        series new LineGraphSeries<>();
+        count++;
+        GraphView graph = (GraphView) findViewById(R.id.graph);
+        series.appendData(new DataPoint(count,w), true, 50);
+        graph.addSeries(series);
 
-    }
+        if (count%49==0)
+        {
+            int [] count1=new int[50];
 
-    public void start_stop(View v) {
-        if (on==1) {
-            File myDir = new File(Environment.getExternalStorageDirectory(), "acc_data/");
-            String filename = "acc_data_"+System.currentTimeMillis()+".txt";
-            try {
-                boolean res = myDir.mkdirs();
-                File file = new File(myDir, filename);
-                res = res ^ file.createNewFile();
-                System.out.print(res);
-                PrintWriter out = new PrintWriter(file);
-                out.write(data);
-                out.flush();
-                out.close();
-                Toast.makeText(getApplicationContext(), "file_saved_at"+myDir+"/"+filename, Toast.LENGTH_SHORT).show();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+            for (int i=0;i <50;++i)
+            {
+                count1[i]=i+offset;
             }
-            TextView saveM = (TextView) findViewById(R.id.NT_SV);
-            saveM.setText("Not Saving");
+            double[] smooth = sgFilter.smooth(w, SGFilter.computeSGCoefficients(5, 5, 3));
+           // GraphView graph = (GraphView) findViewById(R.id.graph);
+            series1.appendData(new DataPoint(count1, smooth), true, 50);
+            graph.addSeries(series1);
+            offset=offset+50;
         }
-        else {
-            count = 0;
-            TextView saveM = (TextView) findViewById(R.id.NT_SV);
-            saveM.setText(String.format("No. of data points=%d",count));
-            Toast.makeText(getApplicationContext(), "Started", Toast.LENGTH_SHORT).show();
-            data = "";
-        }
-        on = 1 - on;
-        System.out.print(v);
     }
+
+
 
 
 

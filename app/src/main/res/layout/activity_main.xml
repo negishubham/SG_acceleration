@@ -25,10 +25,10 @@
             android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="x_accel"
             android:layout_below="@+id/textView5"
-            android:layout_toStartOf="@+id/textView5" />
+            android:layout_marginTop="20dp"
+            android:layout_toStartOf="@+id/textView5"
+            android:text="x_accel" />
 
         <TextView
             android:id="@+id/textView11"
@@ -52,18 +52,18 @@
             android:id="@+id/x_vl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="xvl"
             android:layout_alignBaseline="@+id/textView10"
             android:layout_alignBottom="@+id/textView10"
-            android:layout_toEndOf="@+id/textView5" />
+            android:layout_toEndOf="@+id/textView5"
+            android:text="xvl" />
 
         <TextView
             android:id="@+id/y_vl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="yvl"
             android:layout_above="@+id/textView12"
-            android:layout_alignStart="@+id/x_vl" />
+            android:layout_alignStart="@+id/x_vl"
+            android:text="yvl" />
 
         <TextView
             android:id="@+id/z_vl"
@@ -77,26 +77,37 @@
             android:id="@+id/NT_SV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Saving disabled"
             android:layout_below="@+id/textView12"
-            android:layout_toStartOf="@+id/z_vl" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button"
-            android:layout_below="@+id/NT_SV"
-            android:layout_alignEnd="@+id/NT_SV" />
+            android:layout_marginTop="16dp"
+            android:layout_toStartOf="@+id/z_vl"
+            android:text="Saving disabled" />
 
         <com.jjoe64.graphview.GraphView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:id="@+id/graph"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/button" />
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:layout_alignParentBottom="true" />
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView12"
+            android:layout_below="@+id/NT_SV"
+            android:layout_marginTop="18dp"
+            android:text="w" />
+
+        <TextView
+            android:id="@+id/w_vl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textView"
+            android:layout_toEndOf="@+id/NT_SV"
+            android:text="wvl" /><![CDATA[
+
+        android:layout_alignParentStart="true" />
+
+    ]]>
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
