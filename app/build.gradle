@@ -29,4 +29,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('libs/GraphView-4.2.1 (1).jar')
     compile files('libs/sgfilter_v1_2r25.jar')
+    compile 'org.apache.commons:commons-math:2.2'
 }
