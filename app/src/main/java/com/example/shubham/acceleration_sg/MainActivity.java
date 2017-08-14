@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         d.setText(String.format(Locale.getDefault(), "%.9f", w[count]));
 
 
-        GraphView graph = (GraphView) findViewById(R.id.graph);
+        //GraphView graph = (GraphView) findViewById(R.id.graph);
 
         if ((time%(window-1))==0)
         {
@@ -102,14 +102,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             for (int i=0;i<window;++i)
             {
                 series.appendData(new DataPoint(i+offset,w[i]), true, p);
-                series.setColor(Color.RED);
+                /*series.setColor(Color.RED);
                 series.setThickness(2);
-                graph.addSeries(series);
+                graph.addSeries(series);*/
 
                 series1.appendData(new DataPoint(i+offset,smooth[i]), true, p);
-                series.setColor(Color.BLACK);
-                graph.addSeries(series1);
-               // series1.setShape(LineGraphSeries.Shape.POINT);
+                /*series.setColor(Color.BLACK);
+                graph.addSeries(series1);*/
 
             }
             offset=offset+window;
