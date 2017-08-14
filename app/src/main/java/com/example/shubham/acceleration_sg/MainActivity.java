@@ -13,17 +13,18 @@ import android.widget.Toast;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-//import com.jjoe64.graphview.series.PointsGraphSeries;
 
 import java.util.Locale;
 
 import mr.go.sgfilter.SGFilter;
+import mr.go.sgfilter.ZeroEliminator;
 
+//import com.jjoe64.graphview.series.PointsGraphSeries;
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
-    private int on = 0;
     int count = 0;
-    int window=10;
+    int p=50;
+    int window=5;
     int time =0;
     int offset=0;
     double  [] w= new double[10];
@@ -47,16 +48,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         GraphView graph = (GraphView) findViewById(R.id.graph);
         series = new LineGraphSeries<>();
-        series.appendData(new DataPoint(0,0), true, 50);
+        series.appendData(new DataPoint(0,0), true, p);
         series.setColor(Color.RED);
         series.setThickness(2);
         graph.addSeries(series);
 
         series1 = new LineGraphSeries<>();
-        series1.appendData(new DataPoint(0,0), true, 50);
+        series1.appendData(new DataPoint(0,0), true, p);
+        series.setColor(Color.BLACK);
         //series1.setShape(LineGraphSeries.Shape.POINT);
         graph.addSeries(series1);
         sgFilter = new SGFilter(5, 5);
+        sgFilter.appendPreprocessor(new ZeroEliminator());
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(0);
+        graph.getViewport().setMaxX(p);
 
     }
 
@@ -95,14 +101,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             for (int i=0;i<window;++i)
             {
-                series.appendData(new DataPoint(i+offset,w[i]), true, 50);
+                series.appendData(new DataPoint(i+offset,w[i]), true, p);
                 series.setColor(Color.RED);
                 series.setThickness(2);
                 graph.addSeries(series);
 
-                series1.appendData(new DataPoint(i+offset,smooth[i]), true, 50);
+                series1.appendData(new DataPoint(i+offset,smooth[i]), true, p);
+                series.setColor(Color.BLACK);
                 graph.addSeries(series1);
                // series1.setShape(LineGraphSeries.Shape.POINT);
+
             }
             offset=offset+window;
             count=-1;
