@@ -17,14 +17,14 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.Locale;
 
 import mr.go.sgfilter.SGFilter;
-import mr.go.sgfilter.ZeroEliminator;
+//import mr.go.sgfilter.ZeroEliminator;
 
 //import com.jjoe64.graphview.series.PointsGraphSeries;
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     int count = 0;
     int p=50;
-    int window=5;
+    int window=10;
     int time =0;
     int offset=0;
     double  [] w= new double[10];
@@ -55,11 +55,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         series1 = new LineGraphSeries<>();
         series1.appendData(new DataPoint(0,0), true, p);
-        series.setColor(Color.BLACK);
-        //series1.setShape(LineGraphSeries.Shape.POINT);
+        series1.setColor(Color.BLACK);
         graph.addSeries(series1);
         sgFilter = new SGFilter(5, 5);
-        sgFilter.appendPreprocessor(new ZeroEliminator());
+        //sgFilter.appendPreprocessor(new ZeroEliminator());
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(p);
@@ -92,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         d.setText(String.format(Locale.getDefault(), "%.9f", w[count]));
 
 
-        //GraphView graph = (GraphView) findViewById(R.id.graph);
 
         if ((time%(window-1))==0)
         {
@@ -102,21 +100,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             for (int i=0;i<window;++i)
             {
                 series.appendData(new DataPoint(i+offset,w[i]), true, p);
-                /*series.setColor(Color.RED);
-                series.setThickness(2);
-                graph.addSeries(series);*/
-
                 series1.appendData(new DataPoint(i+offset,smooth[i]), true, p);
-                /*series.setColor(Color.BLACK);
-                graph.addSeries(series1);*/
 
             }
             offset=offset+window;
             count=-1;
         }
     }
-
-
 
 }
 

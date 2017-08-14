@@ -79,8 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView12"
             android:layout_marginTop="16dp"
-            android:layout_toStartOf="@+id/z_vl"
-            android:text="Saving disabled" />
+            android:layout_toStartOf="@+id/z_vl" />
 
         <com.jjoe64.graphview.GraphView
             android:id="@+id/graph"
@@ -103,11 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/textView"
             android:layout_toEndOf="@+id/NT_SV"
-            android:text="wvl" /><![CDATA[
-
-        android:layout_alignParentStart="true" />
-
-    ]]>
+            android:text="wvl" /><![CDATA[android:layout_alignParentStart="true" />]]>
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
